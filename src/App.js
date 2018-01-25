@@ -9,6 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       showResult: false,
+      address: {},
+      resultError: false,
     };
   }
 
@@ -17,18 +19,26 @@ class App extends Component {
   }
 
   search(err, cep) {
-    this.setState({ showResult: false });
+    this.setState({
+      showResult: false,
+      resultError: false,
+    });
     if (err) {
       return;
     }
     fetchJsonp(`https://viacep.com.br/ws/${cep}/json/`)
       .then(response => response.json())
       .then(json => {
-        if (!json.erro) {
-          this.setState({ showResult: true });
+        console.log(json);
+        if (json.erro) {
+          this.setState({ resultError: true });
+          return;
         }
+        this.setState({
+          showResult: true,
+          address: json,
+        });
       });
-
   }
 
   render() {
@@ -39,7 +49,13 @@ class App extends Component {
           <h3 className="app-search-title">Consultar</h3>
           <Search search={(...value) => this.search(...value)} />
         </header>
-        {this.state.showResult ? <Result close={() => this.closeResult()} /> : null}
+        {this.state.showResult ?
+          <Result
+            close={() => this.closeResult()}
+            address={this.state.address} /> :
+          this.state.resultError ?
+            <p>Não foi possível consultar este CEP na API.</p> :
+            null}
       </div>
     );
   }
