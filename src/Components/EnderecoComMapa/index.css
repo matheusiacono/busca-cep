@@ -1,0 +1,12 @@
+.App-body {
+  border: 3px solid #F2F2F2;
+  padding: 20px;
+}
+
+.App-body>h2 {
+  margin: 0 0 8px 0;
+}
+
+.App-body>p {
+  margin: 8px 0;
+}
