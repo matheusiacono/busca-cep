@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Search from './Components/Search';
 import Result from './Components/Result';
+import fetchJsonp from 'fetch-jsonp';
 
 class App extends Component {
   constructor(props) {
@@ -20,8 +21,14 @@ class App extends Component {
     if (err) {
       return;
     }
+    fetchJsonp(`https://viacep.com.br/ws/${cep}/json/`)
+      .then(response => response.json())
+      .then(json => {
+        if (!json.erro) {
+          this.setState({ showResult: true });
+        }
+      });
 
-    this.setState({ showResult: true });
   }
 
   render() {
