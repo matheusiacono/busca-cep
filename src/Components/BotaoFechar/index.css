@@ -1,0 +1,14 @@
+.button-close {
+  color: #777;
+  font: 20px arial, sans-serif;
+  text-decoration: none;
+  float: right;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button-close:after {
+  content: '✖';
+}
