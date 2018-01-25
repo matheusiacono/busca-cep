@@ -1,4 +1,4 @@
-.button-close {
+.close-button {
   color: #777;
   font: 20px arial, sans-serif;
   text-decoration: none;
@@ -9,6 +9,6 @@
   cursor: pointer;
 }
 
-.button-close:after {
+.close-button:after {
   content: '✖';
 }

@@ -1,13 +1,13 @@
-.App {
+.app {
   padding: 0 32%;
 }
 
-.App-header {
+.app-search {
   background-color: #F2F2F2;
   padding: 20px;
   margin-bottom: 10px;
 }
 
-.App-header-title {
+.app-search-title {
   margin: 0 0 20px 0;
 }

@@ -1,12 +1,12 @@
-.App-body {
+.app-result {
   border: 3px solid #F2F2F2;
   padding: 20px;
 }
 
-.App-body>h2 {
+.app-result-street {
   margin: 0 0 8px 0;
 }
 
-.App-body>p {
+.app-result-address {
   margin: 8px 0;
 }

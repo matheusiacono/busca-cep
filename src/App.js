@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
-import FormBuscar from './Components/FormBuscar';
-import EnderecoComMapa from './Components/EnderecoComMapa';
+import Search from './Components/Search';
+import Result from './Components/Result';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mostrarEndereco: false,
+      showResult: false,
     };
   }
 
-  fecharEndereco() {
-    this.setState({ mostrarEndereco: false });
+  closeResult() {
+    this.setState({ showResult: false });
   }
 
-  buscarCep(x) {
-    console.log('buscando CEP' + x);
-    this.setState({ mostrarEndereco: true });
+  search(err, cep) {
+    this.setState({ showResult: false });
+    if (err) {
+      return;
+    }
+
+    this.setState({ showResult: true });
   }
 
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <h1>Consulta de endereço</h1>
-        <header className="App-header">
-          <h3 className="App-header-title">Consultar</h3>
-          <FormBuscar buscar={(x) => this.buscarCep(x)} />
+        <header className="app-search">
+          <h3 className="app-search-title">Consultar</h3>
+          <Search search={(...value) => this.search(...value)} />
         </header>
-        {this.state.mostrarEndereco ? <EnderecoComMapa fechar={() => this.fecharEndereco()} /> : null}
+        {this.state.showResult ? <Result close={() => this.closeResult()} /> : null}
       </div>
     );
   }

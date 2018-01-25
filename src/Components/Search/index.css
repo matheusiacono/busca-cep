@@ -1,4 +1,4 @@
-.form-label {
+.search-label {
   color: #9A9A9A;
   display: inline-block;
   max-width: 100%;
@@ -6,7 +6,7 @@
   font-weight: bold;
 }
 
-.form-input {
+.search-input {
   width: 100px;
   padding: 6px 12px;
   margin: 0 10px 0 20px;
@@ -18,7 +18,11 @@
   display: inline-block;
 }
 
-.form-button {
+.search-input-error {
+  border: 2px solid red;
+}
+
+.search-button {
   display: inline-block;
   padding: 6px 20px;
   margin-bottom: 0;
