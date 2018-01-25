@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import fetchJsonp from 'fetch-jsonp';
+
 import './App.css';
 import Search from './Components/Search';
 import Result from './Components/Result';
-import fetchJsonp from 'fetch-jsonp';
+
+const MAPS_API_KEY = 'AIzaSyDrOfx4R7j4oNFtVPMR2r8tjsTfKWLnTRA';
+const CEP_URL = (cep) => `https://viacep.com.br/ws/${cep}/json/`;
+const MAPS_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 class App extends Component {
   constructor(props) {
@@ -11,6 +17,7 @@ class App extends Component {
       showResult: false,
       address: {},
       resultError: false,
+      coordinates: {},
     };
   }
 
@@ -26,7 +33,7 @@ class App extends Component {
     if (err) {
       return;
     }
-    fetchJsonp(`https://viacep.com.br/ws/${cep}/json/`)
+    fetchJsonp(CEP_URL(cep))
       .then(response => response.json())
       .then(json => {
         console.log(json);
@@ -38,6 +45,17 @@ class App extends Component {
           showResult: true,
           address: json,
         });
+        this.setLocation(`${json.logradouro} ${json.bairro} ${json.localidade} ${json.uf}`);
+      });
+  }
+
+  setLocation(address) {
+    axios
+      .get(`${MAPS_URL}?address=${address}&key=${MAPS_API_KEY}`)
+      .then(response => {
+        if (response.data.status === 'OK') {
+          this.setState({ coordinates: response.data.results[0].geometry.location });
+        }
       });
   }
 
@@ -52,7 +70,8 @@ class App extends Component {
         {this.state.showResult ?
           <Result
             close={() => this.closeResult()}
-            address={this.state.address} /> :
+            address={this.state.address}
+            coordinates={this.state.coordinates} /> :
           this.state.resultError ?
             <p>Não foi possível consultar este CEP na API.</p> :
             null}
