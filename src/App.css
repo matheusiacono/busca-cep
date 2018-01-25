@@ -4,5 +4,9 @@
 
 .App-header {
   background-color: #F2F2F2;
-  padding: 10px;
+  padding: 20px;
+}
+
+.App-header-title {
+  margin: 0 0 20px 0;
 }

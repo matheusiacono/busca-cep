@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import FormBuscar from './Components/FormBuscar';
 
 class App extends Component {
   render() {
@@ -7,10 +8,8 @@ class App extends Component {
       <div className="App">
         <h1>Consulta de endereço</h1>
         <header className="App-header">
-          <h3>Consultar</h3>
-          <label>CEP</label>
-          <input />
-          <button>Buscar</button>
+          <h3 className="App-header-title">Consultar</h3>
+          <FormBuscar />
         </header>
       </div>
     );
