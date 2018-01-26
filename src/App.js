@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import fetchJsonp from 'fetch-jsonp';
 
 import './App.css';
 import Search from './Components/Search';
 import Result from './Components/Result';
+import barLoader from './assets/bar-loader.gif';
 
-const MAPS_API_KEY = 'AIzaSyDrOfx4R7j4oNFtVPMR2r8tjsTfKWLnTRA';
 const CEP_URL = (cep) => `https://viacep.com.br/ws/${cep}/json/`;
-const MAPS_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 class App extends Component {
   constructor(props) {
@@ -17,18 +15,24 @@ class App extends Component {
       showResult: false,
       address: {},
       resultError: false,
-      coordinates: {},
+      location: '',
+      loading: false,
     };
   }
 
   closeResult() {
-    this.setState({ showResult: false });
+    this.setState({
+      showResult: false,
+      location: '',
+    });
   }
 
   search(err, cep) {
     this.setState({
       showResult: false,
       resultError: false,
+      location: '',
+      loading: true,
     });
     if (err) {
       return;
@@ -36,26 +40,16 @@ class App extends Component {
     fetchJsonp(CEP_URL(cep))
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         if (json.erro) {
-          this.setState({ resultError: true });
+          this.setState({ resultError: true, loading: false });
           return;
         }
         this.setState({
           showResult: true,
+          loading: false,
           address: json,
+          location: `${json.logradouro} ${json.bairro} ${json.localidade} ${json.uf}`,
         });
-        this.setLocation(`${json.logradouro} ${json.bairro} ${json.localidade} ${json.uf}`);
-      });
-  }
-
-  setLocation(address) {
-    axios
-      .get(`${MAPS_URL}?address=${address}&key=${MAPS_API_KEY}`)
-      .then(response => {
-        if (response.data.status === 'OK') {
-          this.setState({ coordinates: response.data.results[0].geometry.location });
-        }
       });
   }
 
@@ -67,14 +61,20 @@ class App extends Component {
           <h3 className="app-search-title">Consultar</h3>
           <Search search={(...value) => this.search(...value)} />
         </header>
-        {this.state.showResult ?
-          <Result
-            close={() => this.closeResult()}
-            address={this.state.address}
-            coordinates={this.state.coordinates} /> :
-          this.state.resultError ?
-            <p>Não foi possível consultar este CEP na API.</p> :
-            null}
+
+        {this.state.loading ?
+          <img
+            style={{ display: 'block', margin: '0 auto' }}
+            src={barLoader}
+            alt="carregando" /> :
+          this.state.showResult ?
+            <Result
+              close={() => this.closeResult()}
+              address={this.state.address}
+              location={this.state.location} /> :
+            this.state.resultError ?
+              <p>Não foi possível consultar este CEP na API.</p> :
+              null}
       </div>
     );
   }
