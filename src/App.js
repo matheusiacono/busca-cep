@@ -62,19 +62,21 @@ class App extends Component {
           <Search search={(...value) => this.search(...value)} />
         </header>
 
-        {this.state.loading ?
-          <img
-            style={{ display: 'block', margin: '0 auto' }}
-            src={barLoader}
-            alt="carregando" /> :
-          this.state.showResult ?
-            <Result
-              close={() => this.closeResult()}
-              address={this.state.address}
-              location={this.state.location} /> :
-            this.state.resultError ?
-              <p>Este CEP não foi encontrado.</p> :
-              null}
+        {
+          this.state.loading
+            ? <img
+              style={{ display: 'block', margin: '0 auto' }}
+              src={barLoader}
+              alt="carregando" />
+            : this.state.showResult
+              ? <Result
+                close={() => this.closeResult()}
+                address={this.state.address}
+                location={this.state.location} />
+              : this.state.resultError
+                ? <p>Este CEP não foi encontrado.</p>
+                : null
+        }
       </div>
     );
   }

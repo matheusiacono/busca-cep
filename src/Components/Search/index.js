@@ -36,7 +36,11 @@ class Search extends Component {
           type="button"
           className="search-button"
           onClick={() => this.handleClick()}>Buscar</button>
-        {this.state.error ? <p style={{ color: 'red' }}>O valor do CEP está incorreto!</p> : null}
+        {
+          this.state.error
+            ? <p style={{ color: 'red' }}>O valor do CEP está incorreto!</p>
+            : null
+        }
       </form>
     );
   }

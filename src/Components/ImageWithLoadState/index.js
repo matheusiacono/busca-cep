@@ -20,13 +20,14 @@ class ImageWithStatusText extends React.Component {
     return (
       <div>
         {
-          this.state.loading ?
-            <img
+          this.state.loading
+            ? <img
               style={{ display: 'block', margin: '0 auto' }}
               src={spin}
-              alt="carregando" /> :
-            this.state.hasError ?
-              <p>Houve um problema ao carregar a imagem!</p> : null
+              alt="carregando" />
+            : this.state.hasError
+              ? <p>Houve um problema ao carregar a imagem!</p>
+              : null
         }
         <img
           src={this.props.src}
