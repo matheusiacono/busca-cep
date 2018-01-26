@@ -32,11 +32,11 @@ class App extends Component {
       showResult: false,
       resultError: false,
       location: '',
-      loading: true,
     });
     if (err) {
       return;
     }
+    this.setState({ loading: true });
     fetchJsonp(CEP_URL(cep))
       .then(response => response.json())
       .then(json => {
@@ -73,7 +73,7 @@ class App extends Component {
               address={this.state.address}
               location={this.state.location} /> :
             this.state.resultError ?
-              <p>Não foi possível consultar este CEP na API.</p> :
+              <p>Este CEP não foi encontrado.</p> :
               null}
       </div>
     );
