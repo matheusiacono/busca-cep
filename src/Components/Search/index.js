@@ -24,9 +24,14 @@ class Search extends Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.handleClick();
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={(e) => { this.handleSubmit(e); }}>
         <label htmlFor="cep" className="search-label">CEP</label>
         <CepInput
           id="cep"
